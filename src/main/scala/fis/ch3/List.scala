@@ -47,12 +47,3 @@ object List:
 
   def apply[A](as: A*): List[A] = as.foldRight[List[A]](Nil)((a, b) => a :: b)
 end List
-
-@main def run() =
-  import List._
-  val x = List(1, 2, 3)
-  println(x.sum)
-  val y = List(1.0, 2.0, 3.0)
-  println(y.product)
-  println(x.map(_ * 2))
-  println(Seq[String]("a").reduce(_ + _))
