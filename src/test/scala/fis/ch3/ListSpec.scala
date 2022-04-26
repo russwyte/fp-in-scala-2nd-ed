@@ -5,7 +5,7 @@ class ListSpec extends munit.FunSuite:
   val l = List(1, 2)
   test("cons `::`") {
     val res = 1 :: 2 :: Nil
-    assert(res == List.Cons(1, Cons(2, Nil)))
+    assert(res == Cons(1, Cons(2, Nil)))
     assert(res == l)
   }
   test("foldLeft") {
@@ -40,4 +40,12 @@ class ListSpec extends munit.FunSuite:
   }
   test("product") {
     assert(l.product == 2)
+  }
+  test("headOption") {
+    assert(l.headOption.isDefined && l.headOption == Some(1))
+    assert(Nil.headOption.isEmpty)
+  }
+  test("tailOption") {
+    assert { l.tailOption.isDefined && l.tailOption == Some(List(2)) }
+    assert { Nil.tailOption.isEmpty }
   }

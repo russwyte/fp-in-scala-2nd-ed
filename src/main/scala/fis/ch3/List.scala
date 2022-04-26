@@ -30,10 +30,20 @@ enum List[+A]:
 
   final def flatMap[B](f: A => List[B]): List[B] = map(f).flatten
 
+  def headOption: Option[A] = this match
+    case Cons(a, _) => Some(a)
+    case Nil =>
+      None
+
+  def tailOption: Option[List[A]] = this match
+    case Cons(_, as) => Some(as)
+    case Nil         => None
+
   override def toString: String =
     s"List(${foldLeft("")((s: String, a: A) =>
         s + s"${if (s.isEmpty) "" else ","}$a"
       )})"
+
 end List
 
 object List:
