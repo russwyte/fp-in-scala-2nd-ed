@@ -121,4 +121,8 @@ class ListSpec extends munit.FunSuite:
       l.hasSubsequence(List(4)) &&
       l.hasSubsequence(Nil)
     }
+    assert {
+      !l.hasSubsequence(List(0, 1)) &&
+      !l.hasSubsequence(List(1, 2, 3, 4, 5))
+    }
   }
