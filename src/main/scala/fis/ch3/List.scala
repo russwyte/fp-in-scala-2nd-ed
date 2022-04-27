@@ -7,6 +7,11 @@ enum List[+A]:
   case Nil
   case Cons(head: A, tail: List[A])
 
+  override def toString: String =
+    s"List(${foldLeft("")((s: String, a: A) =>
+        s + s"${if (s.isEmpty) "" else ","}$a"
+      )})"
+
   final def reverse: List[A] = foldLeft[List[A]](Nil)((b, a) => a :: b)
 
   @targetName("cons")
@@ -21,10 +26,6 @@ enum List[+A]:
   final def foldRight[B](b: B)(f: (A, B) => B): B =
     reverse.foldLeft(b)((b, a) => f(a, b))
 
-  @targetName("append")
-  final def ++[B >: A](bs: List[B]): List[B] =
-    reverse.foldLeft(bs)((b, a) => a :: b)
-
   final def map[B](f: A => B): List[B] =
     foldRight[List[B]](Nil)((a, b) => f(a) :: b)
 
@@ -32,17 +33,18 @@ enum List[+A]:
 
   def headOption: Option[A] = this match
     case Cons(a, _) => Some(a)
-    case Nil =>
-      None
+    case Nil        => None
 
   def tailOption: Option[List[A]] = this match
     case Cons(_, as) => Some(as)
     case Nil         => None
 
-  override def toString: String =
-    s"List(${foldLeft("")((s: String, a: A) =>
-        s + s"${if (s.isEmpty) "" else ","}$a"
-      )})"
+  def initOption = reverse.tailOption.map(_.reverse)
+
+  def length: Int = foldLeft(0) { (count, _) => count + 1 }
+
+  @targetName("append")
+  def ++[B >: A](bs: List[B]): List[B] = foldRight(bs)(_ :: _)
 
 end List
 
