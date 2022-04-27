@@ -97,3 +97,28 @@ class ListSpec extends munit.FunSuite:
       } == (List("1:a", "2:b", "3:c"))
     }
   }
+
+  test("take") {
+    assert {
+      List(1, 2, 3).take(2) == List(1, 2)
+    }
+  }
+
+  test("startsWith") {
+    assert {
+      List(1, 2, 3).startsWith(List(1, 2)) && !List(2, 3).startsWith(
+        List(1, 2)
+      )
+    }
+  }
+
+  test("hasSubsequence") {
+    val l = List(1, 2, 3, 4)
+    assert {
+      l.hasSubsequence(List(1, 2)) &&
+      l.hasSubsequence(List(2, 3)) &&
+      l.hasSubsequence(List(2, 3, 4)) &&
+      l.hasSubsequence(List(4)) &&
+      l.hasSubsequence(Nil)
+    }
+  }

@@ -41,7 +41,7 @@ enum List[+A]:
 
   def initOption = reverse.tailOption.map(_.reverse)
 
-  def length: Int = foldLeft(0) { (count, _) => count + 1 }
+  lazy val length: Int = foldLeft(0) { (count, _) => count + 1 }
 
   @targetName("append")
   def ++[B >: A](bs: List[B]): List[B] = foldRight(bs)(_ :: _)
@@ -54,8 +54,28 @@ enum List[+A]:
       case ((l, Nil), _)         => (l, bs)
     }._1.reverse
 
+  val empty: List[A] = Nil
+  def take(n: Int): List[A] =
+    @tailrec
+    def inner(nn: Int, acc: List[A], l: List[A]): List[A] =
+      if (nn >= n) acc.reverse
+      else
+        l match
+          case Nil         => acc
+          case Cons(a, as) => inner(nn + 1, a :: acc, as)
+    inner(0, empty, this)
+
   def combine[B, C](bs: List[B])(f: (A, B) => C): List[C] =
     zip(bs).map(f.tupled)
+
+  def startsWith[B >: A](that: List[B]): Boolean = take(that.length) == that
+
+  @tailrec
+  final def hasSubsequence[B >: A](that: List[B]): Boolean =
+    this.startsWith(that) || (this match
+      case Cons(a, as) if (as.length >= that.length) => as.hasSubsequence(that)
+      case _                                         => false
+    )
 
 end List
 
