@@ -46,6 +46,17 @@ enum List[+A]:
   @targetName("append")
   def ++[B >: A](bs: List[B]): List[B] = foldRight(bs)(_ :: _)
 
+  def filter(p: A => Boolean) = flatMap(a => if (p(a)) List(a) else Nil)
+
+  def zip[B](bs: List[B]): List[(A, B)] =
+    foldLeft((Nil: List[(A, B)], bs)) {
+      case ((l, Cons(b, bs)), a) => ((a, b) :: l, bs)
+      case ((l, Nil), _)         => (l, bs)
+    }._1.reverse
+
+  def combine[B, C](bs: List[B])(f: (A, B) => C): List[C] =
+    zip(bs).map(f.tupled)
+
 end List
 
 object List:

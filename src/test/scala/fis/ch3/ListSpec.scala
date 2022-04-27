@@ -61,3 +61,19 @@ class ListSpec extends munit.FunSuite:
       List(1, 2, 3).length == 3
     }
   }
+
+  test("zip") {
+    assert {
+      List(1, 2, 3).zip(List(4, 5, 6)) == List((1, 4), (2, 5), (3, 6))
+      List(1, 2, 3).zip(List(4, 5, 6, 7)) == List((1, 4), (2, 5), (3, 6))
+      List(1, 2, 3, 4).zip(List(4, 5, 6)) == List((1, 4), (2, 5), (3, 6))
+    }
+  }
+
+  test("combine") {
+    assert {
+      List(1, 2, 3).combine(List("a", "b", "c")) { (a, b) =>
+        s"$a:$b"
+      } == (List("1:a", "2:b", "3:c"))
+    }
+  }
