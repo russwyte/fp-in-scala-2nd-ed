@@ -49,7 +49,7 @@ enum List[+A]:
   def filter(p: A => Boolean) = flatMap(a => if (p(a)) List(a) else Nil)
 
   def zip[B](bs: List[B]): List[(A, B)] =
-    foldLeft((Nil: List[(A, B)], bs)) {
+    foldLeft(Nil: List[(A, B)], bs) {
       case ((l, Cons(b, bs)), a) => ((a, b) :: l, bs)
       case ((l, Nil), _)         => (l, bs)
     }._1.reverse
