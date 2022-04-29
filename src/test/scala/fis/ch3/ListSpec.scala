@@ -126,3 +126,21 @@ class ListSpec extends munit.FunSuite:
       !l.hasSubsequence(List(1, 2, 3, 4, 5))
     }
   }
+
+  test("drop") {
+    assert {
+      List(1, 2, 3, 4).drop(2) == List(3, 4)
+    }
+  }
+
+  test("head") {
+    assert(List(1, 2, 3).head == 1)
+  }
+
+  test("tail") {
+    assert(List(1, 2, 3).tail == List(2, 3))
+  }
+
+  test("reduce") {
+    assert(List(1, 2, 3).reduce(_ + _) == 6)
+  }

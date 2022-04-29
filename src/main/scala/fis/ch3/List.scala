@@ -5,7 +5,7 @@ import Numeric._
 
 enum List[+A]:
   case Nil
-  case Cons(head: A, tail: List[A])
+  case Cons(a: A, as: List[A])
 
   override def toString: String =
     s"List(${foldLeft("")((s: String, a: A) =>
@@ -76,6 +76,30 @@ enum List[+A]:
       case Cons(a, as) if (as.length >= that.length) => as.hasSubsequence(that)
       case _                                         => false
     )
+
+  def drop(n: Int): List[A] =
+    @tailrec
+    def inner(acc: List[A], x: Int): List[A] = acc match
+      case Nil                  => Nil
+      case Cons(_, as) if x > 0 => inner(as, x - 1)
+      case _                    => acc
+    inner(this, n)
+
+  def head: A = this match
+    case Nil        => throw new UnsupportedOperationException
+    case Cons(a, _) => a
+
+  def tail: List[A] = this match
+    case Nil         => throw new UnsupportedOperationException
+    case Cons(_, as) => as
+
+  def reduce[B >: A](f: (B, B) => B): B = this match
+    case Cons(a1, as) =>
+      def inner(acc: B, as: List[B]): B = as match
+        case Cons(a, as) => inner(f(acc, a), as)
+        case Nil         => acc
+      inner(a1, as)
+    case Nil => throw new UnsupportedOperationException
 
 end List
 
