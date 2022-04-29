@@ -13,7 +13,7 @@ lazy val root = (project in file("."))
           method = 0,
           branch = 0,
           complexity = 0,
-          line = 90,
+          line = 85,
           clazz = 100
         )
       )
