@@ -14,7 +14,7 @@ lazy val root = (project in file("."))
           branch = 0,
           complexity = 0,
           line = 85,
-          clazz = 100
+          clazz = 50
         )
       )
       .withFormats(JacocoReportFormats.ScalaHTML)
