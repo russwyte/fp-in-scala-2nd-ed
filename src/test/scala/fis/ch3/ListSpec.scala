@@ -144,3 +144,9 @@ class ListSpec extends munit.FunSuite:
   test("reduce") {
     assert(List(1, 2, 3).reduce(_ + _) == 6)
   }
+
+  test("takeWhile") {
+    assert {
+      List(1, 2, 3, 4).takeWhile(_ < 3) == List(1, 2)
+    }
+  }

@@ -101,6 +101,14 @@ enum List[+A]:
       inner(a1, as)
     case Nil => throw new UnsupportedOperationException
 
+  def takeWhile(p: A => Boolean): List[A] =
+    @tailrec
+    def inner(acc: List[A], l: List[A]): List[A] =
+      l match
+        case Nil         => acc
+        case Cons(a, as) => if (p(a)) inner(a :: acc, as) else acc
+    inner(empty, this).reverse
+
 end List
 
 object List:
